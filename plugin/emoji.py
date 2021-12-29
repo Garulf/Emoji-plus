@@ -6,13 +6,6 @@ from flox import Flox, Clipboard, ICON_BROWSER, ICON_COPY
 from emoji.unicode_codes import STATUS
 
 ICON_FOLDER = Path(Path.cwd()) / "icons"
-NO_IMG = [
-    "beans",
-    "bubbles",
-    "biting_lip",
-    "coral"
-]
-
 
 class Emoji(Flox, Clipboard):
 
@@ -27,19 +20,22 @@ class Emoji(Flox, Clipboard):
             return None
         return str(file_path)
 
-    def match(self, query, match1, match2):
+    def match(self, query, title, aliases, short_codes):
         q = query.lower()
-        for alias in match2:
+        for alias in aliases:
             if q in alias.lower():
                 return True
-        if q in match1.lower():
+        for short_code in short_codes:
+            if q in short_code.lower():
+                return True
+        if q in title.lower():
             return True
 
     def query(self, query):
         with open('./plugin/emojis.json', 'r') as f:
             EMOJI_DATA = json.load(f)
         for emoji in EMOJI_DATA.keys():
-            if self.match(query, EMOJI_DATA[emoji]['title'], EMOJI_DATA[emoji]['aliases']):
+            if self.match(query, EMOJI_DATA[emoji]['title'], EMOJI_DATA[emoji]['aliases'], EMOJI_DATA[emoji]['shortcodes']):
                 icon = self.translate_to_icon(emoji)
                 if icon:
                     self.add_item(
