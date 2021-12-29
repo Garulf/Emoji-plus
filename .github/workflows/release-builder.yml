@@ -2,7 +2,7 @@ name: "Release-Builder"
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ master ]
     tags-ignore:
       - 'v*'
     paths-ignore: 
