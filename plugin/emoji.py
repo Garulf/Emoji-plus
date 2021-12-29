@@ -40,7 +40,7 @@ class Emoji(Flox, Clipboard):
                 if icon:
                     self.add_item(
                         title=EMOJI_DATA[emoji]['title'],
-                        subtitle=", ".join(EMOJI_DATA[emoji]['aliases']),
+                        subtitle=", ".join(EMOJI_DATA[emoji]['aliases'] + EMOJI_DATA[emoji]['shortcodes']),
                         icon=str(icon),
                         context=[emoji, EMOJI_DATA[emoji]['title']],
                         method=self.copy_emoji,
