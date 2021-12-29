@@ -3,7 +3,6 @@ from pathlib import Path
 import json
 
 from flox import Flox, Clipboard, ICON_BROWSER, ICON_COPY
-from emoji.unicode_codes import STATUS
 
 ICON_FOLDER = Path(Path.cwd()) / "icons"
 
