@@ -1,0 +1,3 @@
+tqdm==4.62.3
+Emojipedia==0.4.1
+requests==2.22.0

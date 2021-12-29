@@ -1,0 +1,12 @@
+{
+    "ID": "F32C0CF0270944AFAC9298BB67E16292",
+    "ActionKeyword": ":",
+    "Name": "Emoji+",
+    "Description": "Search for Emoji",
+    "Author": "Garulf",
+    "Version": "1.0.0",
+    "Language": "python",
+    "Website": "https://github.com/Garulf/emoji+",
+    "IcoPath": "./icon.png",
+    "ExecuteFileName": "run.py"
+}
