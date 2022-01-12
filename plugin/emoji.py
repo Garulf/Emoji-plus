@@ -3,11 +3,11 @@ from pathlib import Path
 import json
 from subprocess import Popen, PIPE
 
-from flox import Flox, Clipboard, ICON_BROWSER, ICON_COPY
+from flox import Flox, ICON_BROWSER, ICON_COPY
 
 ICON_FOLDER = Path(Path.cwd()) / "icons"
 
-class Emoji(Flox, Clipboard):
+class Emoji(Flox):
 
     def translate_to_icon(self, emoji):
         code = []
@@ -68,12 +68,6 @@ class Emoji(Flox, Clipboard):
 
     def open_url(self, url):
         webbrowser.open(url)
-
-    def copy_emoji(self, data):
-        """
-        Copy a character into clipboard.
-        """
-        self.put(data)
 
     def type_char(self, char):
         """
