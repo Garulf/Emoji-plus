@@ -1,6 +1,7 @@
 import webbrowser
 from pathlib import Path
 import json
+from subprocess import Popen, PIPE
 
 from flox import Flox, Clipboard, ICON_BROWSER, ICON_COPY
 
@@ -42,7 +43,7 @@ class Emoji(Flox, Clipboard):
                         subtitle=", ".join(EMOJI_DATA[emoji]['aliases'] + EMOJI_DATA[emoji]['shortcodes']),
                         icon=str(icon),
                         context=[emoji, EMOJI_DATA[emoji]['title']],
-                        method=self.copy_emoji,
+                        method=self.type_char,
                         parameters=[emoji]
                     )
 
@@ -69,7 +70,18 @@ class Emoji(Flox, Clipboard):
         webbrowser.open(url)
 
     def copy_emoji(self, data):
+        """
+        Copy a character into clipboard.
+        """
         self.put(data)
+
+    def type_char(self, char):
+        """
+        Type a character into the current focused window.
+        """
+        Popen(['powershell.exe', f'Set-Clipboard "{char}"; $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys("^v");'], creationflags=0x08000000)
+
+
 
 if __name__ == "__main__":
     Emoji()
