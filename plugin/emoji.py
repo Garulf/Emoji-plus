@@ -73,7 +73,8 @@ class Emoji(Flox):
         """
         Type a character into the current focused window.
         """
-        Popen(['powershell.exe', f'Set-Clipboard "{char}"; $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys("^v");'], creationflags=0x08000000)
+        Popen(['powershell.exe', f'Set-Clipboard "{char}"; [System.Windows.Forms.SendKeys]::SendWait("^v")'], creationflags=0x08000000)
+        self.close_app()
 
 
 
