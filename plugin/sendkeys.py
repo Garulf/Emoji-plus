@@ -1,3 +1,5 @@
+# Referenced from https://stackoverflow.com/a/13615802
+
 import ctypes
 from ctypes import wintypes
 import time
