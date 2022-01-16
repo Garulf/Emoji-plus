@@ -2,6 +2,7 @@ import webbrowser
 from pathlib import Path
 import json
 from subprocess import Popen, PIPE
+from time import sleep
 
 from flox import Flox, ICON_BROWSER, ICON_COPY
 from flox.clipboard import Clipboard
@@ -84,7 +85,9 @@ class Emoji(Flox, Clipboard):
         """
         Type a character into the current focused window.
         """
-        Popen(['powershell.exe', f'Set-Clipboard "{char}"; [System.Windows.Forms.SendKeys]::SendWait("^v")'], creationflags=0x08000000)
+        script_path = Path(__file__).parent.resolve() / "sendkeys.py"
+        self.copy_emoji(char)
+        Popen(['pythonw.exe', script_path], creationflags=0x08000000)
         self.close_app()
 
 
