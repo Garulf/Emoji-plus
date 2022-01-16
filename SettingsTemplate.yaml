@@ -1,0 +1,13 @@
+body:
+  - type: checkbox
+    attributes:
+      name: auto_insert
+      label: 'Auto Insert:'
+      defaultValue: "true"
+      description: Automaticaly inserts Emoji into the last activated window.
+  - type: textBlock
+    attributes:
+      name: description
+      description: >
+        Automaticaly inserts Emoji into the last activated window.
+

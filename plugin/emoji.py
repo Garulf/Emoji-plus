@@ -4,10 +4,11 @@ import json
 from subprocess import Popen, PIPE
 
 from flox import Flox, ICON_BROWSER, ICON_COPY
+from flox.clipboard import Clipboard
 
 ICON_FOLDER = Path(Path.cwd()) / "icons"
 
-class Emoji(Flox):
+class Emoji(Flox, Clipboard):
 
     def translate_to_icon(self, emoji):
         code = []
@@ -34,6 +35,10 @@ class Emoji(Flox):
     def query(self, query):
         with open('./plugin/emojis.json', 'r') as f:
             EMOJI_DATA = json.load(f)
+        if self.settings.get('auto_insert'):
+            action = self.type_char
+        else:
+            action = self.copy_emoji
         for emoji in EMOJI_DATA.keys():
             if self.match(query, EMOJI_DATA[emoji]['title'], EMOJI_DATA[emoji]['aliases'], EMOJI_DATA[emoji]['shortcodes']):
                 icon = self.translate_to_icon(emoji)
@@ -43,7 +48,7 @@ class Emoji(Flox):
                         subtitle=", ".join(EMOJI_DATA[emoji]['aliases'] + EMOJI_DATA[emoji]['shortcodes']),
                         icon=str(icon),
                         context=[emoji, EMOJI_DATA[emoji]['title']],
-                        method=self.type_char,
+                        method=action,
                         parameters=[emoji]
                     )
 
@@ -68,6 +73,12 @@ class Emoji(Flox):
 
     def open_url(self, url):
         webbrowser.open(url)
+
+    def copy_emoji(self, emoji):
+        """
+        Copy an emoji to the clipboard.
+        """
+        self.put(emoji)
 
     def type_char(self, char):
         """
