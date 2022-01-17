@@ -22,8 +22,8 @@ jobs:
         if: startsWith(runner.os, 'Windows')
         with:
           path: |
-            ~\AppData\Roaming\FlowLauncher\*
-            !~\AppData\Roaming\FlowLauncher\Plugins\*
+            ~\AppData\Roaming\FlowLauncher\**
+            !~\AppData\Roaming\FlowLauncher\Plugins
             ~\AppData\Local\FlowLauncher\**
           key: ${{ runner.os }}-flow-
       - name: Download Flow Launcher
@@ -45,6 +45,7 @@ jobs:
           $plugin_path = Join-Path -Path $env:APPDATA -ChildPath 'FlowLauncher' | Join-Path -ChildPath 'Plugins' | Join-Path -ChildPath ${{github.event.repository.name}}
           if (Test-Path $plugin_path)
           {
+            echo "Removing cached directory"
             Remove-Item $plugin_path
           }
           New-Item -ItemType SymbolicLink -Path $plugin_path -Target $repo_path
