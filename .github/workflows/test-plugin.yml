@@ -33,7 +33,7 @@ jobs:
           prop_path: 'Version'
       - name: Assert Version updated
         run: |
-          $release_ver = (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/${{env.GITHUB_REPOSITORY}}/${{env.BRANCH}}/plugin.json" | ConvertFrom-Json).Version
+          $release_ver = (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/${{github.repository}}/${{env.BRANCH}}/plugin.json" | ConvertFrom-Json).Version
           $this_ver = ${{steps.version.outputs.prop}}
           if ([version]$this_ver -gt [version]$release_ver) {
             exit 0
