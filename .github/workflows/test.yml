@@ -34,7 +34,7 @@ jobs:
             exit 1
           }
       - name: Install Flow Launcher
-        if: ${{ steps.download.outcome == 'success' }}
+        if: ${{ !failure() }}
         run: .\Flow-Launcher-Setup.exe
         shell: cmd
       - name: Checkout Plugin Repo
