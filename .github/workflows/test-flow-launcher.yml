@@ -13,12 +13,16 @@ env:
   PYTHON_VER: 3.8
 jobs:
   deps:
-    name: "Flow Launcher"
+    name: "Python"
     runs-on: windows-latest
     strategy:
       matrix:
-        flow_ver: [1.8.3, 1.9.0, 1.9.1]
+        python_ver: [3.6, 3.7, 3.8, 3.9, 3.10]
     steps:
+      - name: Get latest Version tag
+        run: |
+          $tag_name = (Invoke-WebRequest -Uri "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases/latest" | ConvertFrom-Json).tag_name
+          echo "LATEST_TAG=$tag_name" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
       - name: Load Cache
         uses: actions/cache@v2
         id: flow_cache
@@ -28,12 +32,12 @@ jobs:
             ~\AppData\Roaming\FlowLauncher\*
             !~\AppData\Roaming\FlowLauncher\Plugins\*
             ~\AppData\Local\FlowLauncher\**
-          key: ${{ runner.os }}-flow-${{ matrix.flow_ver }}
-      - name: Download Flow Launcher
+          key: ${{ runner.os }}-flow-${{ env.LATEST_TAG }}
+      - name: Download Flow Launcher ${{ env.LATEST_TAG }}
         id: download
         if: steps.flow_cache.outputs.cache-hit != 'true'
         run: |
-          curl.exe -L -o Flow-Launcher-Setup.exe "https://github.com/Flow-Launcher/Flow.Launcher/releases/download/v${{matrix.flow_ver}}/Flow-Launcher-Setup.exe"
+          curl.exe -L -o Flow-Launcher-Setup.exe "https://github.com/Flow-Launcher/Flow.Launcher/releases/download/${{env.LATEST_TAG}}/Flow-Launcher-Setup.exe"
       - name: Install Flow Launcher
         if: steps.flow_cache.outputs.cache-hit != 'true'
         run: .\Flow-Launcher-Setup.exe
