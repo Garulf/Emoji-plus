@@ -15,6 +15,9 @@ jobs:
   deps:
     name: "Test"
     runs-on: windows-latest
+    strategy:
+      matrix:
+        flow_ver: [1.8.3, 1.9.0, 1.9.1]
     steps:
       - name: Load Cache
         uses: actions/cache@v2
@@ -25,7 +28,7 @@ jobs:
             ~\AppData\Roaming\FlowLauncher\*
             !~\AppData\Roaming\FlowLauncher\Plugins\*
             ~\AppData\Local\FlowLauncher\**
-          key: ${{ runner.os }}-flow-
+          key: ${{ runner.os }}-flow-${{ matrix.flow_ver }}
       - name: Download Flow Launcher
         id: download
         if: steps.flow_cache.outputs.cache-hit != 'true'
