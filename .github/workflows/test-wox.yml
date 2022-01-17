@@ -1,4 +1,4 @@
-name: "Test Flow Launcher"
+name: "Test Wox"
 on:
   pull_request: 
   workflow_dispatch: 
@@ -14,7 +14,7 @@ env:
   SETUP_EXE: Wox-Full-Installer
 jobs:
   deps:
-    name: "Flow Launcher"
+    name: "Wox"
     runs-on: windows-latest
     strategy:
       matrix:
