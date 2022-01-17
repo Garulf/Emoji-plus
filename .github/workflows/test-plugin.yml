@@ -23,7 +23,7 @@ jobs:
       - name: Get latest Version tag
         run: |
           $release = Invoke-WebRequest -Uri "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases/tags/${{matrix.flow_tags}}" | ConvertFrom-Json
-          foreach ($asset in $webdata.assets)
+          foreach ($asset in $release.assets)
           {
             if($asset.name -like '*setup.exe') {
               $download_url = $asset.browser_download_url
