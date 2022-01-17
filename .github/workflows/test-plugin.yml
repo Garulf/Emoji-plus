@@ -12,12 +12,27 @@ on:
 env:
   PYTHON_VER: 3.8
 jobs:
-  deps:
-    name: "Python"
-    runs-on: ${{ matrix.os }}
+  grab_releases:
+    name: Grab latest releases
+    runs-on: windows-latest
+    steps:
+      - name: Get latest Version tag
+        run: |
+          $releases = Invoke-WebRequest -Uri "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases" | ConvertFrom-Json
+          $release_data = @()
+          foreach ($release in $releases[0..2]) {
+              Write-Host $release.tag_name
+              $release_data += $release.tag_name
+          }
+          $release_tags = "["$release_data[0]"," $release_data[1]"," $release_data[2]"]"
+          echo "RELEASE_TAGS=$release_tags" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+  test_run:
+    name: "Test Run"
+    runs-on: windows-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        flow_tags: ${{ env.RELEASE_TAGS }}
         python_ver: ['3.6', '3.7', '3.8', '3.9', '3.10']
     steps:
       - name: Get latest Version tag
