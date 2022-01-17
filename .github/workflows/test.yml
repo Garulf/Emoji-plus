@@ -22,7 +22,7 @@ jobs:
         if: startsWith(runner.os, 'Windows')
         with:
           path: |
-            ~\AppData\Roaming\FlowLauncher\**
+            ~\AppData\Roaming\FlowLauncher\*
             !~\AppData\Roaming\FlowLauncher\Plugins
             ~\AppData\Local\FlowLauncher\**
           key: ${{ runner.os }}-flow-
