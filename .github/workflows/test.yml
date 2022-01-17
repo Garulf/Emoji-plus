@@ -43,7 +43,7 @@ jobs:
         run: |
           $repo_path = Join-Path -Path $pwd -ChildPath ${{github.event.repository.name}}
           $plugin_path = Join-Path -Path $env:APPDATA -ChildPath 'FlowLauncher' | Join-Path -ChildPath 'Plugins' | Join-Path -ChildPath ${{github.event.repository.name}}
-          if Test-Path $plugin_path
+          if (Test-Path $plugin_path)
           {
             Remove-Item $plugin_path
           }
