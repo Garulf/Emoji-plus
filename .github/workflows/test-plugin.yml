@@ -26,12 +26,14 @@ jobs:
         with:
           path: ${{github.event.repository.name}}
       - name: Get Version
+        if: ${{ github.ref != 'refs/heads/main' }}
         id: version
         uses: notiz-dev/github-action-json-property@release
         with: 
           path: './${{github.event.repository.name}}/plugin.json'
           prop_path: 'Version'
       - name: Assert Version updated
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
           $release_ver = (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/${{github.repository}}/${{env.BRANCH}}/plugin.json" | ConvertFrom-Json).Version
           $this_ver = ${{steps.version.outputs.prop}}
