@@ -35,7 +35,7 @@ jobs:
         if: steps.wox_cache.outputs.cache-hit != 'true'
         run: |
           curl.exe -L -o ${{ env.SETUP_EXE }} "https://github.com/Wox-launcher/Wox/releases/download/v${{matrix.wox_ver}}/Wox-Full-Installer.1.4.1196.exe"
-      - name: Install Flow Launcher
+      - name: Install Wox
         if: steps.wox_cache.outputs.cache-hit != 'true'
         run: .\${{ env.SETUP_EXE }}
         shell: cmd
