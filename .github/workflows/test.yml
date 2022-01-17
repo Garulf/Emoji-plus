@@ -41,6 +41,7 @@ jobs:
       - name: Move checkout repo
         run: |
           $repo_path = Join-Path -Path $pwd -ChildPath ${{github.event.repository.name}}
+          echo $repo_path
           $plugin_path = Join-Path -Path $env:APPDATA -ChildPath 'FlowLauncher' | Join-Path -ChildPath 'Plugins' | Join-Path -ChildPath ${{github.event.repository.name}}
           echo "PLUGIN_PATH=$plugin_path" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
       - name: Set up Python
