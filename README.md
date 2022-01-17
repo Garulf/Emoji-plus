@@ -1,3 +1,4 @@
+[![Test Plugin](https://github.com/Garulf/Emoji-plus/actions/workflows/test-plugin.yml/badge.svg)](https://github.com/Garulf/Emoji-plus/actions/workflows/test-plugin.yml)
 # Emoji-plus
 Search and copy the right Emoji for any occasion.
 
