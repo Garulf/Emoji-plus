@@ -1,4 +1,4 @@
-name: "Test Flow Launcher"
+name: "Test Plugin"
 on:
   pull_request: 
   workflow_dispatch: 
