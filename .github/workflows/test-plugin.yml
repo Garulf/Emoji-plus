@@ -55,7 +55,7 @@ jobs:
           }
           echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "FILE_NAME=$file_name" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-      - name: Load Cache
+      - name: Flow Launcher Cache
         uses: actions/cache@v2
         id: flow_cache
         with:
