@@ -8,6 +8,7 @@ from flox import Flox, ICON_BROWSER, ICON_COPY
 from flox.clipboard import Clipboard
 
 ICON_FOLDER = Path(Path.cwd()) / "icons"
+NO_WINDOW = 0x08000000
 
 class Emoji(Flox, Clipboard):
 
@@ -91,7 +92,7 @@ class Emoji(Flox, Clipboard):
         python_setting = Path(self.app_settings["PluginSettings"].get("PythonDirectory"))
         if python_setting:
             python_path = Path(python_setting, "python.exe")
-        Popen([python_path, script_path], creationflags=0x08000000)
+        Popen([python_path, script_path], creationflags=NO_WINDOW)
         self.close_app()
 
 
