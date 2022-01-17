@@ -20,15 +20,21 @@ jobs:
         uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
         with:
-          path: .\Flow-Launcher-Setup.exe
+          path: |
+            ~\AppData\Roaming\FlowLauncher\**
+            ~\AppData\Local\FlowLauncher\**
           key: ${{ runner.os }}-flow-
       - name: Download Flow Launcher
+        id: download
         run: |
-          if (-Not (Test-Path .\Flow-Launcher-Setup.exe))
+          if (-Not (Test-Path ~\\AppData\Roaming\FlowLauncher))
           {
             curl.exe -L -o Flow-Launcher-Setup.exe "https://github.com/Flow-Launcher/Flow.Launcher/releases/latest/download/Flow-Launcher-Setup.exe"
+          } else {
+            exit 1
           }
       - name: Install Flow Launcher
+        if: ${{ steps.download.outcome == 'success' }}
         run: .\Flow-Launcher-Setup.exe
         shell: cmd
       - name: Checkout Plugin Repo
