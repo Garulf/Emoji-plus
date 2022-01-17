@@ -42,7 +42,6 @@ jobs:
         run: |
           $repo_path = Join-Path -Path $pwd -ChildPath ${{github.event.repository.name}}
           $plugin_path = Join-Path -Path $env:APPDATA -ChildPath 'FlowLauncher' | Join-Path -ChildPath 'Plugins' | Join-Path -ChildPath ${{github.event.repository.name}}
-          New-Item -ItemType SymbolicLink -Path $plugin_path -Target $repo_path
           echo "PLUGIN_PATH=$plugin_path" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -64,11 +63,9 @@ jobs:
         id: exe
         uses: notiz-dev/github-action-json-property@release
         with: 
-          path: '${{ env.PLUGIN_PATH }}/plugin.json'
+          path: '${{ env.repo_path }}/plugin.json'
           prop_path: 'ExecuteFileName'
       - name: Test Run
         run: |
-          cd ${{ env.PLUGIN_PATH }}
-          echo ${{ env.PLUGIN_PATH }}
-          echo ${{steps.exe.outputs.prop}}
+          cd ${{ env.repo_path }}
           python ${{steps.exe.outputs.prop}}
