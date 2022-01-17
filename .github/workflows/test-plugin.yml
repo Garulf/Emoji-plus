@@ -11,6 +11,7 @@ on:
       - assets/*
 env:
   PYTHON_VER: 3.8
+  BRANCH: 'main'
 jobs:
   test_run:
     name: "Test Run"
@@ -20,6 +21,25 @@ jobs:
         flow_tags: ['v1.8.3', 'v1.9.0']
         python_ver: ['3.6', '3.7', '3.8', '3.9', '3.10']
     steps:
+      - name: Checkout Plugin Repo
+        uses: actions/checkout@v2
+        with:
+          path: ${{github.event.repository.name}}
+      - name: Get Version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with: 
+          path: './${{github.event.repository.name}}/plugin.json'
+          prop_path: 'Version'
+      - name: Assert Version updated
+        run: |
+          $release_ver = (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/${{env.GITHUB_REPOSITORY}}/${{env.BRANCH}}/plugin.json" | ConvertFrom-Json).Version
+          $this_ver = ${{steps.version.outputs.prop}}
+          if ([version]$this_ver -gt [version]$release_ver) {
+            exit 0
+          } else {
+            exit 1
+          }
       - name: Get latest Version tag
         run: |
           $release = Invoke-WebRequest -Uri "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases/tags/${{matrix.flow_tags}}" | ConvertFrom-Json
@@ -51,11 +71,7 @@ jobs:
         if: steps.flow_cache.outputs.cache-hit != 'true'
         run: .\${{ env.FILE_NAME }}
         shell: cmd
-      - name: Checkout Plugin Repo
-        uses: actions/checkout@v2
-        with:
-          path: ${{github.event.repository.name}}
-      - name: Move checkout repo
+      - name: Move Plugin to plugins directory
         run: |
           $repo_path = Join-Path -Path $pwd -ChildPath ${{github.event.repository.name}}
           $plugin_path = Join-Path -Path $env:APPDATA -ChildPath 'FlowLauncher' | Join-Path -ChildPath 'Plugins' | Join-Path -ChildPath ${{github.event.repository.name}}
