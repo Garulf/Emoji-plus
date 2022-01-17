@@ -24,6 +24,7 @@ jobs:
           path: |
             ~\AppData\Roaming\FlowLauncher\**
             ~\AppData\Local\FlowLauncher\**
+            !~\AppData\Roaming\FlowLauncher\Plugins\**
           key: ${{ runner.os }}-flow-
       - name: Download Flow Launcher
         id: download
