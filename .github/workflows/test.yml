@@ -33,7 +33,7 @@ jobs:
         id: download
         if: steps.flow_cache.outputs.cache-hit != 'true'
         run: |
-          curl.exe -L -o Flow-Launcher-Setup.exe "https://github.com/Flow-Launcher/Flow.Launcher/releases/latest/download/Flow-Launcher-Setup.exe"
+          curl.exe -L -o Flow-Launcher-Setup.exe "https://github.com/Flow-Launcher/Flow.Launcher/releases/download/v${{matrix.flow_ver}}/Flow-Launcher-Setup.exe"
       - name: Install Flow Launcher
         if: steps.flow_cache.outputs.cache-hit != 'true'
         run: .\Flow-Launcher-Setup.exe
