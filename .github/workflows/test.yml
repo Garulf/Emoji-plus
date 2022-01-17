@@ -32,8 +32,6 @@ jobs:
           if (-Not (Test-Path ~\\AppData\Roaming\FlowLauncher))
           {
             curl.exe -L -o Flow-Launcher-Setup.exe "https://github.com/Flow-Launcher/Flow.Launcher/releases/latest/download/Flow-Launcher-Setup.exe"
-          } else {
-            exit 1
           }
       - name: Install Flow Launcher
         if: steps.flow_cache.outputs.cache-hit != 'true'
