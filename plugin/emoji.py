@@ -4,11 +4,12 @@ import json
 from subprocess import Popen, PIPE
 from time import sleep
 
-from flox import Flox, ICON_BROWSER, ICON_COPY
+from flox import Flox, utils, ICON_BROWSER, ICON_COPY
 from flox.clipboard import Clipboard
 
 ICON_FOLDER = Path(Path.cwd()) / "icons"
 NO_WINDOW = 0x08000000
+SEVEN_DAYS = 604800
 
 class Emoji(Flox, Clipboard):
 
@@ -24,6 +25,8 @@ class Emoji(Flox, Clipboard):
         return str(file_path)
 
     def match(self, query, title, aliases, short_codes):
+        if query == '':
+            return True
         q = query.lower()
         for alias in aliases:
             if q in alias.lower():
@@ -34,7 +37,7 @@ class Emoji(Flox, Clipboard):
         if q in title.lower():
             return True
 
-    def query(self, query):
+    def results(self, query):
         with open('./plugin/emojis.json', 'r') as f:
             EMOJI_DATA = json.load(f)
         if self.settings.get('auto_insert'):
@@ -53,6 +56,14 @@ class Emoji(Flox, Clipboard):
                         method=action,
                         parameters=[emoji]
                     )
+
+    def query(self, query):
+        if query == '':
+            cache = utils.cache("emoji.json", max_age=SEVEN_DAYS)
+            self._results = cache(self.results)(query)
+            utils.refresh_cache("emoji.json")
+        else:
+            self.results(query)
 
 
     def context_menu(self, data):
