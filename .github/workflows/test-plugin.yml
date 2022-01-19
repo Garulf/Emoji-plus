@@ -18,33 +18,22 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        flow_tags: ['v1.8.3', 'v1.9.0']
-        python_ver: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        flow_tags: ['latest']
+        python_ver: ['3.8']
     steps:
       - name: Checkout Plugin Repo
         uses: actions/checkout@v2
         with:
           path: ${{github.event.repository.name}}
-      - name: Get Version
-        if: ${{ github.ref != 'refs/heads/main' }}
-        id: version
-        uses: notiz-dev/github-action-json-property@release
-        with: 
-          path: './${{github.event.repository.name}}/plugin.json'
-          prop_path: 'Version'
-      - name: Assert Version updated
-        if: ${{ github.ref != 'refs/heads/main' }}
-        run: |
-          $release_ver = (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/${{github.repository}}/${{env.BRANCH}}/plugin.json" | ConvertFrom-Json).Version
-          $this_ver = ${{steps.version.outputs.prop}}
-          if ([version]$this_ver -gt [version]$release_ver) {
-            exit 0
-          } else {
-            exit 1
-          }
       - name: Get latest Version tag
         run: |
-          $release = Invoke-WebRequest -Uri "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases/tags/${{matrix.flow_tags}}" | ConvertFrom-Json
+          if ("${{matrix.flow_tags}}" -eq 'latest') {
+            $url = "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases/latest"
+          } else {
+            $url = "https://api.github.com/repos/Flow-Launcher/Flow.Launcher/releases/tags/${{matrix.flow_tags}}"
+          }
+          $release = Invoke-WebRequest -Uri $url | ConvertFrom-Json
+          $tag_name = $release.tag_name
           foreach ($asset in $release.assets)
           {
             if($asset.name -like '*setup.exe') {
@@ -55,6 +44,7 @@ jobs:
           }
           echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "FILE_NAME=$file_name" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          echo "TAG_NAME=$tag_name" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
       - name: Flow Launcher Cache
         uses: actions/cache@v2
         id: flow_cache
@@ -63,7 +53,7 @@ jobs:
             ~\AppData\Roaming\FlowLauncher\*
             !~\AppData\Roaming\FlowLauncher\Plugins\*
             ~\AppData\Local\FlowLauncher\**
-          key: ${{ runner.os }}-flow-${{ matrix.flow_tags }}
+          key: ${{ runner.os }}-flow-${{ env.TAG_NAME }}
       - name: Download Flow Launcher
         id: download
         if: steps.flow_cache.outputs.cache-hit != 'true'
