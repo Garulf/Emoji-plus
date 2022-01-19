@@ -56,6 +56,7 @@ class Emoji(Flox, Clipboard):
                         method=action,
                         parameters=[emoji]
                     )
+        return self._results
 
     def query(self, query):
         if query == '':
