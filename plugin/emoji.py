@@ -24,6 +24,8 @@ class Emoji(Flox, Clipboard):
         return str(file_path)
 
     def match(self, query, title, aliases, short_codes):
+        if query == '':
+            return True
         q = query.lower()
         for alias in aliases:
             if q in alias.lower():
