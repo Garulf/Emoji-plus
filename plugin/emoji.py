@@ -1,6 +1,7 @@
 import webbrowser
 from pathlib import Path
 import json
+import sys
 from subprocess import Popen, PIPE
 from time import sleep
 
@@ -100,18 +101,9 @@ class Emoji(Flox, Clipboard):
         """
         script_path = Path(__file__).parent.resolve() / "sendkeys.py"
         self.copy_emoji(char)
-        python_path = 'pythonw.exe'
-        python_setting = self.app_settings["PluginSettings"].get("PythonDirectory")
-        if python_setting:
-            python_path = Path(python_setting, "python.exe")
-        else:
-            python_executable_path = Path(self.app_settings["PluginSettings"].get("PythonExecutablePath"))
-            python_path = python_executable_path.parent / 'pythonw.exe'
-        Popen([python_path, script_path], creationflags=NO_WINDOW)
+        Popen([sys.executable, script_path], creationflags=NO_WINDOW)
         self.close_app()
-
 
 
 if __name__ == "__main__":
     Emoji()
-
