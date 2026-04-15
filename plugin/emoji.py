@@ -101,9 +101,9 @@ class Emoji(Flox, Clipboard):
         script_path = Path(__file__).parent.resolve() / "sendkeys.py"
         self.copy_emoji(char)
         python_path = 'pythonw.exe'
-        python_setting = Path(self.app_settings["PluginSettings"].get("PythonDirectory"))
+        python_setting = self.app_settings.get("PythonDirectory")
         if python_setting:
-            python_path = Path(python_setting, "python.exe")
+            python_path = Path(python_setting, "pythonw.exe")
         Popen([python_path, script_path], creationflags=NO_WINDOW)
         self.close_app()
 
