@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
+import unicodedata
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -77,10 +79,9 @@ def auto_insert() -> bool:
 
 
 def emojipedia_url(title: str) -> str:
-    slug = title.lower()
-    for old, new in ((":", ""), ("_", "-"), (" ", "-"), (".", ""), ("(", ""), (")", "")):
-        slug = slug.replace(old, new)
-    return f"https://emojipedia.org/{slug}"
+    ascii_title = unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode()
+    words = re.findall(r"[a-z0-9]+", ascii_title.lower().replace("'", ""))
+    return f"https://emojipedia.org/{'-'.join(words)}"
 
 
 def copy_command(char: str) -> Command:

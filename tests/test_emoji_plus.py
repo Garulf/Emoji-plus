@@ -90,9 +90,18 @@ def test_context_menu_offers_copy_and_emojipedia():
     "title, slug",
     [
         ("Flag: United States", "flag-united-states"),
-        ("Keycap: *", "keycap-*"),
+        ("Keycap: 10", "keycap-10"),
         ("Woman Technologist (Medium Skin Tone)", "woman-technologist-medium-skin-tone"),
         ("St. Lucia", "st-lucia"),
+        ("Person: Light Skin Tone, Blond Hair", "person-light-skin-tone-blond-hair"),
+        ("Twelve O’Clock", "twelve-oclock"),
+        ("Man's Shoe", "mans-shoe"),
+        ("Japanese “Here” Button", "japanese-here-button"),
+        ("Flag: Antigua & Barbuda", "flag-antigua-barbuda"),
+        ("Flag: São Tomé & Príncipe", "flag-sao-tome-principe"),
+        ("Piñata", "pinata"),
+        ("On! Arrow", "on-arrow"),
+        ("Medium-Light Skin Tone", "medium-light-skin-tone"),
     ],
 )
 def test_emojipedia_url(title, slug):
