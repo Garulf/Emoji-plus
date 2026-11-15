@@ -43,7 +43,7 @@ def _download(url: str) -> str:
                     f.write(data)
     except requests.exceptions.RequestException as e:
         pass
-    
+
 
 def format_filename(url: str) -> str:
     """Formats a URL to a filename."""
@@ -63,7 +63,7 @@ def main():
     progress = tqdm(all_emoji)
     progress.set_description('Total Progress')
     for emoji in progress:
-        progress.set_description(emoji.title) 
+        progress.set_description(emoji.title)
         download_img(emoji, 'twitter', IMAGE_SIZES['120x120'])
 
 if __name__ == "__main__":

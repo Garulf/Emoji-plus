@@ -1,0 +1,9 @@
+{
+  "keyword": ":",
+  "query": ":thumbs",
+  "icon": "../../data/icon.png",
+  "max_results": 4,
+  "selection": 0,
+  "query_suggestion": "",
+  "show_caret": false
+}

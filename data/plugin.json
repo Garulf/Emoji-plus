@@ -5,8 +5,8 @@
   "Description": "Search and copy the right Emoji for any occasion.",
   "Author": "Garulf",
   "Version": "2.0.0",
-  "Language": "python",
+  "Language": "python_v2",
   "Website": "https://github.com/Garulf/emoji-plus",
-  "IcoPath": "./icon.png",
+  "IcoPath": "icon.png",
   "ExecuteFileName": "run.py"
 }

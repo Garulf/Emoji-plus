@@ -10,7 +10,7 @@ import requests
 
 
 ALIASES_FILENAME = 'emojis.json'
-ALIASES_PATH = Path(Path.cwd(), ALIASES_FILENAME) 
+ALIASES_PATH = Path(Path.cwd(), ALIASES_FILENAME)
 
 def write_file(data: dict) -> None:
     """Writes a dictionary to a file."""
@@ -42,7 +42,7 @@ def main():
             }
         }
         write_file(data)
-        
+
 
 if __name__ == '__main__':
     start = time()
